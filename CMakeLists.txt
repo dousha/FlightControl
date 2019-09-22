@@ -30,12 +30,12 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_compile_definitions(PART_TM4C123GH6PM TARGET_IS_BLIZZARD_RA1 gcc)
 
-file(GLOB_RECURSE SOURCES "User/*.*" "Libraries/driverlib/*.c" "Libraries/driverlib/gcc/*.*" "src/*.*")
+file(GLOB_RECURSE SOURCES "User/*.*" "Libraries/driverlib/*.c" "Libraries/driverlib/gcc/*.*" "src/*.*" "src/**/*.*")
 
 include_directories(Libraries Libraries/inc Libraries/utils Libraries/driverlib driverlib/ Libraries/driverlib/gcc)
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
-target_link_libraries(${PROJECT_NAME}.elf m ${PROJECT_SOURCE_DIR}/driverlib/gcc/libdriver.a nosys)
+target_link_libraries(${PROJECT_NAME}.elf m ${PROJECT_SOURCE_DIR}/Libraries/driverlib/gcc/libdriver.a nosys)
 
 set(CMAKE_EXE_LINKER_FLAGS
 		"${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map")

@@ -5,11 +5,12 @@
 #ifndef FLIGHTCONTROL_SERIALPORT_H
 #define FLIGHTCONTROL_SERIALPORT_H
 
+#include "../driver/HardwareSpec.h"
 #include <sysctl.h>
 #include <hw_memmap.h>
-#include <cstdint>
 #include <driverlib/pin_map.h>
-#include "RingBuffer.h"
+#include "../util/RingBuffer.h"
+#include <gpio.h>
 
 constexpr int SERIAL_BUFFER_SIZE = 64;
 constexpr uint32_t SERIAL_PORT_BASE[] = {SYSCTL_PERIPH_GPIOA,
@@ -52,6 +53,14 @@ constexpr uint32_t SERIAL_RX_TX_PAIR[] = {GPIO_PA0_U0RX,
 										  GPIO_PD5_U6TX,
 										  GPIO_PE0_U7RX,
 										  GPIO_PE1_U7TX};
+constexpr uint32_t SERIAL_PIN_NAME[] = {GPIO_PORTA_BASE, GPIO_PIN_0, GPIO_PIN_1,
+										GPIO_PORTB_BASE, GPIO_PIN_0, GPIO_PIN_1,
+										GPIO_PORTD_BASE, GPIO_PIN_6, GPIO_PIN_7,
+										GPIO_PORTC_BASE, GPIO_PIN_6, GPIO_PIN_7,
+										GPIO_PORTC_BASE, GPIO_PIN_4, GPIO_PIN_5,
+										GPIO_PORTE_BASE, GPIO_PIN_4, GPIO_PIN_5,
+										GPIO_PORTD_BASE, GPIO_PIN_4, GPIO_PIN_5,
+										GPIO_PORTE_BASE, GPIO_PIN_0, GPIO_PIN_1};
 
 class SerialPort {
 public:
@@ -64,8 +73,8 @@ public:
 	uint8_t read() noexcept;
 
 protected:
-	RingBuffer<uint8_t> recvBuffer = RingBuffer<uint8_t>(SERIAL_BUFFER_SIZE);
-	RingBuffer<uint8_t> sendBuffer = RingBuffer<uint8_t>(SERIAL_BUFFER_SIZE);
+	RingBuffer<uint8_t, SERIAL_BUFFER_SIZE> recvBuffer = RingBuffer<uint8_t, SERIAL_BUFFER_SIZE>();
+	RingBuffer<uint8_t, SERIAL_BUFFER_SIZE> sendBuffer = RingBuffer<uint8_t, SERIAL_BUFFER_SIZE>();
 };
 
 
